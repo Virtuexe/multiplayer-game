@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{8546C2EF-0B69-2ED2-2D4F-2534FDA59A21}</ProjectGuid>
+    <ProjectGuid>{2F0915A2-675F-4612-5D10-E8ED5876BD4B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Mirror.Transports</AssemblyName>
@@ -736,19 +736,19 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Mirror.csproj">
-      <Project>{3509AF36-8144-F44E-09BA-783C14C2844A}</Project>
+      <Project>{8CA146A6-34F7-0EDA-DB20-DD2BFAF8D3C4}</Project>
       <Name>Mirror</Name>
     </ProjectReference>
     <ProjectReference Include="kcp2k.csproj">
-      <Project>{C5C4CB8C-F50A-CCC3-C506-705111EAED58}</Project>
+      <Project>{2272FD37-CD67-EFC7-F458-63F319AA07E8}</Project>
       <Name>kcp2k</Name>
     </ProjectReference>
     <ProjectReference Include="Telepathy.csproj">
-      <Project>{914A1228-0459-F029-1EBF-33FE4A32DBB7}</Project>
+      <Project>{F79C9CD3-E9D8-39D2-C083-06FF22A1A077}</Project>
       <Name>Telepathy</Name>
     </ProjectReference>
     <ProjectReference Include="SimpleWebTransport.csproj">
-      <Project>{CAFA45AF-35E8-49E6-17AC-6DEDD46EFF0A}</Project>
+      <Project>{7FFF8C61-7A43-CF68-F303-50CB2559BC80}</Project>
       <Name>SimpleWebTransport</Name>
     </ProjectReference>
   </ItemGroup>

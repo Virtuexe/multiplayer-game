@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{D46A65ED-87AD-D2D3-0493-4CF8807E7B5A}</ProjectGuid>
+    <ProjectGuid>{33BCAA89-D232-4873-0FBE-98A93FCCF096}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -59,10 +59,12 @@
     <Compile Include="Assets\Scripts\CubeNetworkBehaviour.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerScript.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraScript.cs" />
-    <Compile Include="Assets\Scripts\Game\Cards\Deck.cs" />
-    <Compile Include="Assets\Scripts\Game\GameManagerScript.cs" />
-    <Compile Include="Assets\Scripts\Game\Cards\Card.cs" />
-    <Compile Include="Assets\Scripts\Game\Cards\BoardScript.cs" />
+    <Compile Include="Assets\Scripts\Board\Cards\CardScript.cs" />
+    <Compile Include="Assets\NonScripts\Board\Deck.cs" />
+    <Compile Include="Assets\Scripts\Board\GameManagerScript.cs" />
+    <Compile Include="Assets\NonScripts\Library\note.cs" />
+    <Compile Include="Assets\NonScripts\Board\Card.cs" />
+    <Compile Include="Assets\Scripts\Board\BoardScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />
@@ -789,39 +791,39 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Mirror.csproj">
-      <Project>{3509AF36-8144-F44E-09BA-783C14C2844A}</Project>
+      <Project>{8CA146A6-34F7-0EDA-DB20-DD2BFAF8D3C4}</Project>
       <Name>Mirror</Name>
     </ProjectReference>
     <ProjectReference Include="kcp2k.csproj">
-      <Project>{C5C4CB8C-F50A-CCC3-C506-705111EAED58}</Project>
+      <Project>{2272FD37-CD67-EFC7-F458-63F319AA07E8}</Project>
       <Name>kcp2k</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Transports.csproj">
-      <Project>{8546C2EF-0B69-2ED2-2D4F-2534FDA59A21}</Project>
+      <Project>{2F0915A2-675F-4612-5D10-E8ED5876BD4B}</Project>
       <Name>Mirror.Transports</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Editor.csproj">
-      <Project>{0510D085-D54C-3447-CCDD-B162E605DA3C}</Project>
+      <Project>{BD40B094-43B3-A677-F410-F036A4AA1387}</Project>
       <Name>Mirror.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.CompilerSymbols.csproj">
-      <Project>{ADB89F17-8F0D-379F-C507-DD423F5CFA78}</Project>
+      <Project>{04E23200-ED1A-1528-CF3F-B3A8631424BF}</Project>
       <Name>Mirror.CompilerSymbols</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Authenticators.csproj">
-      <Project>{55CB4B7E-FA82-2444-676C-E963CA52B76B}</Project>
+      <Project>{55DD31C8-C321-C096-953C-56948B1E09F9}</Project>
       <Name>Mirror.Authenticators</Name>
     </ProjectReference>
     <ProjectReference Include="Telepathy.csproj">
-      <Project>{914A1228-0459-F029-1EBF-33FE4A32DBB7}</Project>
+      <Project>{F79C9CD3-E9D8-39D2-C083-06FF22A1A077}</Project>
       <Name>Telepathy</Name>
     </ProjectReference>
     <ProjectReference Include="SimpleWebTransport.csproj">
-      <Project>{CAFA45AF-35E8-49E6-17AC-6DEDD46EFF0A}</Project>
+      <Project>{7FFF8C61-7A43-CF68-F303-50CB2559BC80}</Project>
       <Name>SimpleWebTransport</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Components.csproj">
-      <Project>{05E610CD-78F0-8493-F956-5341DFB36AFE}</Project>
+      <Project>{5F03B384-B2C3-8D1E-3ADD-3D4F7A9C25AA}</Project>
       <Name>Mirror.Components</Name>
     </ProjectReference>
   </ItemGroup>

@@ -174,6 +174,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  decks_currentLength: 0
+  cards_currentLength: 0
 --- !u!114 &30063915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,8 +599,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7565639769486827590, guid: f12b6e8738d6aef4ea5098d436c19847, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 2709382484484157092}
+    - target: {fileID: 7565639769486827590, guid: f12b6e8738d6aef4ea5098d436c19847, type: 3}
       propertyPath: quadMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 0226da03a7e57b44894df344347f3292, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f12b6e8738d6aef4ea5098d436c19847, type: 3}
+--- !u!20 &2709382484484157092 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 2709382485438809040, guid: f12b6e8738d6aef4ea5098d436c19847, type: 3}
+  m_PrefabInstance: {fileID: 2709382484484157091}
+  m_PrefabAsset: {fileID: 0}

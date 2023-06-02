@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{CAFA45AF-35E8-49E6-17AC-6DEDD46EFF0A}</ProjectGuid>
+    <ProjectGuid>{7FFF8C61-7A43-CF68-F303-50CB2559BC80}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>SimpleWebTransport</AssemblyName>

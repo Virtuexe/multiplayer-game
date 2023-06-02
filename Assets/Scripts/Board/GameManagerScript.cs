@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameManagerScript : MonoBehaviour
 {
-    public static GameManagerScript Instance { get; private set; }
+    public static GameManagerScript Instance;
 
 
     public BoardScript board;
@@ -27,7 +27,7 @@ public class GameManagerScript : MonoBehaviour
     void StartGame()
     {
         board.CreateDeck(10, true, 0);
-        board.AddCard(0, new Card("gamer", "shit", null, null));
+        //board.AddCard(0, new Card("gamer", "shit"));
         board.Hand(0, 0);
     }
 }

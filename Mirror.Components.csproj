@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{05E610CD-78F0-8493-F956-5341DFB36AFE}</ProjectGuid>
+    <ProjectGuid>{5F03B384-B2C3-8D1E-3ADD-3D4F7A9C25AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Mirror.Components</AssemblyName>
@@ -762,7 +762,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Mirror.csproj">
-      <Project>{3509AF36-8144-F44E-09BA-783C14C2844A}</Project>
+      <Project>{8CA146A6-34F7-0EDA-DB20-DD2BFAF8D3C4}</Project>
       <Name>Mirror</Name>
     </ProjectReference>
   </ItemGroup>
