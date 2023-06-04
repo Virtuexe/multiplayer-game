@@ -26,7 +26,7 @@ public class GameManagerScript : MonoBehaviour
     }
     void StartGame()
     {
-        board.CreateDeck(10, true, 0);
+        //board.CreateDeck(10, true, 0);
         //board.AddCard(0, new Card("gamer", "shit"));
         board.Hand(0, 0);
     }

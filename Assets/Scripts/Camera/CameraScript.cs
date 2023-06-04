@@ -5,12 +5,17 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class CameraScript : MonoBehaviour
+public class CameraScript : MonoBehaviour, NoteEvents
 {
+    public const float distance = 0.1f;
     public int deck;
     public Vector3 center;
     public Vector2 size;
     public Camera cam;
+    private void Start()
+    {
+        UpdateViewRectangle(distance);
+    }
     public void UpdateViewRectangle(float distance)
     {
         // Calculate the dimensions of the rectangle based on the camera's field of view and aspect ratio
@@ -20,11 +25,16 @@ public class CameraScript : MonoBehaviour
         // Calculate the center of the rectangle based on the camera's position and orientation
         center = cam.transform.position + cam.transform.forward * distance;
     }
-    private void AddCard(int index)
+    public void Added()
+    {
+        Instantiate(Card.prefab);
+    }
+    public void Removed(int index)
     {
 
     }
-    private void RemoveCard(int index)
+    public void Inserted(int index)
     {
+
     }
 }

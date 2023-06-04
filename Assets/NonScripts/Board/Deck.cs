@@ -14,11 +14,11 @@ public struct Deck
 
     public int cardAmount;
     public Note<int> cards_index;
-    public Deck(bool hidden, int playerException)
+    public Deck(bool hidden, int playerException, int deckObject)
     {
         this.cardAmount = 0;
         this.selectedCard = 0;
-        this.cards_index = new Note<int>(BoardScript.card_max);
+        this.cards_index = new Note<int>(BoardScript.card_max, GameManagerScript.Instance.board.deckObjects[deckObject]);
         this.hidden = hidden;
         this.playerException = playerException;
     }

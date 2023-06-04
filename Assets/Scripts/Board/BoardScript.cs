@@ -6,24 +6,22 @@ public class BoardScript : NetworkBehaviour
 {
     public const int card_max = 256;
     public const int deck_max = 256;
-    public int decks_currentLength;
-    public Deck[] decks = new Deck[deck_max];
-    public int cards_currentLength;
-    public Card[] cards = new Card[card_max];
+    public Note<Deck> decks = new Note<Deck>(deck_max);
+    public Note<NoteEvents> deckObjects = new Note<NoteEvents>(deck_max);
+    public Note<Card> cards = new Note<Card>(card_max);
     public List<NetworkConnection> players = new List<NetworkConnection>();
     //Deck : create
-    public int CreateDeck(int size, bool hidden, int playerExceptions)
+    public int CreateDeck(bool hidden, int playerExceptions, int noteObject)
     {
-        decks[decks_currentLength] = new Deck(hidden, playerExceptions);
-        decks_currentLength++;
-        RpcCreateDeck(hidden, playerExceptions);
-        return decks_currentLength - 1;
+        decks.Add(new Deck(hidden, playerExceptions, noteObject));
+        RpcCreateDeck(hidden, playerExceptions, noteObject);
+        return decks.CurrentLength - 1;
     }
 
     [ClientRpc]
-    public void RpcCreateDeck(bool hidden, int playerExceptions)
+    public void RpcCreateDeck(bool hidden, int playerExceptions, int noteObject)
     {
-        decks[decks_currentLength] = new Deck(hidden, playerExceptions);
+        decks.Add(new Deck(hidden, playerExceptions, noteObject));
     }
     //DECK : shuffle
     int temp;
@@ -66,16 +64,14 @@ public class BoardScript : NetworkBehaviour
     [TargetRpc]
     private void TargetAddCard(NetworkConnection target, int deck, Card card)
     {
-        cards[cards_currentLength] = card;
-        decks[deck].cards_index.Add(cards_currentLength);
-        cards_currentLength++;
+        cards.Add(card);
+        decks[deck].cards_index.Add(cards.CurrentLength-1);
     }
     [TargetRpc]
     private void TargetAddCard(NetworkConnection target, int deck)
     {
-        cards[cards_currentLength] = Card.unknownCard;
-        decks[deck].cards_index.Add(cards_currentLength);
-        cards_currentLength++;
+        cards.Add(Card.unknownCard);
+        decks[deck].cards_index.Add(cards.CurrentLength - 1);
     }
     //CARD : remove
     public void RemoveCard(int deck, int card)

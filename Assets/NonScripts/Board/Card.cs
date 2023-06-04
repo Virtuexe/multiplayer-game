@@ -12,6 +12,7 @@ public struct Card
 {
     public string name;
     public string description;
+    public static GameObject prefab = Resources.Load<GameObject>("Assets/Resources/Board/Card.prefab");
 
     public static Card unknownCard = new Card("unknown", "unknown");
     public Card(string name, string description)
