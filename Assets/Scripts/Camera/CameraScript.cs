@@ -5,13 +5,25 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class CameraScript : MonoBehaviour, DeckEvents
+public class CameraScript : DeckEvents
 {
-    public const float distance = 0.1f;
-    public int deckObject;
+    public const float distance = 2f;
     public Vector3 center;
     public Vector2 size;
     public Camera cam;
+    public List<GameObject> gameObjects = new List<GameObject>();
+    int _deck;
+    public override int deck
+    {
+        get
+        {
+            return _deck;
+        }
+        set
+        {
+            _deck = value;
+        }
+    }
     private void Start()
     {
         UpdateViewRectangle(distance);
@@ -25,16 +37,33 @@ public class CameraScript : MonoBehaviour, DeckEvents
         // Calculate the center of the rectangle based on the camera's position and orientation
         center = cam.transform.position + cam.transform.forward * distance;
     }
-    public void CardAdded()
+    public override void CardAdded(int card)
     {
-        Instantiate(Card.prefab);
+        gameObjects.Add(Instantiate(Card.prefab));
+        gameObjects[gameObjects.Count - 1].GetComponent<SpriteRenderer>().sprite = GameManagerScript.Instance.board.cards[card].sprite;
+        CardPositionUpdate();
     }
-    public void CardRemoved(int index)
+    public override void CardRemoved(int index)
     {
-
+        Destroy(gameObjects[index]);
+        gameObjects.RemoveAt(index);
+        CardPositionUpdate();
     }
-    public void CardInserted(int index)
+    public override void CardInserted(int index, int card)
     {
-
+        gameObjects.Insert(index,Instantiate(Card.prefab));
+        gameObjects[gameObjects.Count - 1].GetComponent<SpriteRenderer>().sprite = GameManagerScript.Instance.board.cards[card].sprite;
+        CardPositionUpdate();
+    }
+    public void CardPositionUpdate()
+    {
+        Debug.Log("update");
+        for (int i = 0; i < gameObjects.Count; i++)
+        {
+            gameObjects[i].transform.position = center;
+            gameObjects[i].transform.LookAt(cam.transform);
+            gameObjects[i].transform.localPosition += new Vector3(i*0.5f,0, 0) - new Vector3(size.x/2 - 0.5f, size.y / 2 - 0.5f, 0);
+            gameObjects[i].transform.Rotate(0, 180, 0);
+        }
     }
 }

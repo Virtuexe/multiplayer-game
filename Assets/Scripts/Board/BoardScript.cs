@@ -1,61 +1,81 @@
 using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardScript : NetworkBehaviour
 {
-    public const int card_max = 256;
     public const int deck_max = 256;
+    public Card[] cards;
     public Note<Deck> decks = new Note<Deck>(deck_max);
-    public Note<DeckEvents> deckObjects = new Note<DeckEvents>(deck_max);
-    public Note<Card> cards = new Note<Card>(card_max);
-    public int[,] cards_index = new int[deck_max,card_max];
+    public DeckEvents[] deckObjects;
+    public int[,] cards_index;
+
+    public void Awake()
+    {
+        cards_index = new int[deck_max, cards.Length];
+    }
 
     public List<NetworkConnection> players = new List<NetworkConnection>();
     //Deck : create
-    public int CreateDeck(bool hidden, int playerExceptions, int noteObject)
+    public int CreateDeck(bool hidden, int playerExceptions)
     {
-        decks.Add(new Deck(hidden, playerExceptions, noteObject));
-        RpcCreateDeck(hidden, playerExceptions, noteObject);
+        isReady = false;
+        decks.Add(new Deck(hidden, playerExceptions));
+        foreach (NetworkConnection player in players)
+            TargetCreateDeck(player, hidden, playerExceptions);
+        SetReady();
+        return decks.CurrentLength - 1;
+    }
+    public int CreateDeck()
+    {
+        isReady = false;
+        decks.Add(new Deck(false, 1));
+        foreach (NetworkConnection player in players)
+            TargetCreateDeck(player, false, 0);
+        SetReady();
         return decks.CurrentLength - 1;
     }
 
-    [ClientRpc]
-    public void RpcCreateDeck(bool hidden, int playerExceptions, int noteObject)
+    [TargetRpc]
+    public void TargetCreateDeck(NetworkConnection target, bool hidden, int playerExceptions)
     {
-        decks.Add(new Deck(hidden, playerExceptions, noteObject));
+        if (isServer) return;
+        decks.Add(new Deck(hidden, playerExceptions));
     }
     //DECK : shuffle
     int temp;
     int rand;
+    
     public void ShuffleDeck(int deck)
     {
-        for(int i = 0; i < decks[deck].currentLength; i++)
+        for (int i = 0; i < decks[deck].currentLength; i++)
         {
             temp = cards_index[decks[deck].index, i];
             rand = Random.Range(0, decks[deck].currentLength);
-            cards_index[decks[deck].index,i] = cards_index[decks[deck].index, rand];
+            cards_index[decks[deck].index, i] = cards_index[decks[deck].index, rand];
             cards_index[decks[deck].index, rand] = temp;
         }
     }
     //CARD : move
-    public void MoveCard(int fromDeck, int card, int toDeck)
+    public void MoveCard(int fromDeck, int index, int toDeck)
     {
-        if (decks[fromDeck].currentLength > card && decks[toDeck].maxLength > card)
+        if (decks[fromDeck].currentLength > index && decks[toDeck].maxLength > index)
         {
-            AddCard(toDeck, card);
-            RemoveCard(fromDeck, card);
+            AddCard(toDeck, cards_index[fromDeck,index]);
+            RemoveCard(fromDeck, index);
         }
     }
     //CARD : add
     public void AddCard(int deck, int card)
     {
+        isReady = false;
         decks[deck].Add(card);
         for (int i = 0; i < players.Count; i++)
         {
-            if (decks[deck].hidden || decks[deck].playerException == i)
+            if (!decks[deck].hidden || decks[deck].playerException == i)
             {
-                TargetAddCard(players[i], deck, cards[card]);
+                TargetAddCard(players[i], deck, card);
             }
             else
             {
@@ -64,36 +84,54 @@ public class BoardScript : NetworkBehaviour
         }
     }
     [TargetRpc]
-    private void TargetAddCard(NetworkConnection target, int deck, Card card)
+    private void TargetAddCard(NetworkConnection target, int deck, int card)
     {
-        cards.Add(card);
-        decks[deck].Add(cards.CurrentLength-1);
+        if (isServer) return;
+        decks[deck].Add(card);
+        SetReady();
     }
     [TargetRpc]
     private void TargetAddCard(NetworkConnection target, int deck)
     {
-        cards.Add(Card.unknownCard);
-        decks[deck].Add(cards.CurrentLength - 1);
+        if (isServer) return;
+        decks[deck].Add(0);
+        SetReady();
     }
     //CARD : remove
-    public void RemoveCard(int deck, int card)
+    public void RemoveCard(int deck, int index)
     {
-        decks[deck].Remove(card);
-        RpcRemoveCard(deck, card);
-    }
-    [ClientRpc]
-    private void RpcRemoveCard(int deck, int card)
-    {
-        decks[deck].Remove(card);
-    }
-    //DECK : show hand
-    public void Hand(int player, int deck)
-    {
-        TargetHand(players[player], deck);
+        isReady = false;
+        decks[deck].Remove(index);
+        foreach (NetworkConnection player in players)
+            TargetRemoveCard(player, deck, index);
+        SetReady();
     }
     [TargetRpc]
-    public void TargetHand(NetworkConnection target, int deck)
+    private void TargetRemoveCard(NetworkConnection target, int deck, int card)
     {
-        Camera.main.GetComponent<CameraScript>().deckObject = deck;
+        if (isServer) return;
+        decks[deck].Remove(card);
+    }
+    //DECK OBJECT : subscribe
+    public void SubscribeDeckObject(int player, int deckObjeckt, int deck)
+    {
+        isReady = false;
+        TargetSubscribeDeckObject(players[player], deckObjeckt, deck);
+
+    }
+    [TargetRpc]
+    private void TargetSubscribeDeckObject(NetworkConnection target, int deckObjeckt, int deck)
+    {
+        decks[deck].events = deckObjects[deckObjeckt];
+        decks[deck].events.deck = deck;
+        if (decks[deck].events != null) Debug.Log("subscribed deck object");
+        SetReady();
+    }
+    public bool isReady;
+
+    [Command(requiresAuthority = false)]
+    void SetReady()
+    {
+        isReady = true;
     }
 }

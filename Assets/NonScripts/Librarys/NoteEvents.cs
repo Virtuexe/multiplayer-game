@@ -1,8 +1,10 @@
 using System;
+using UnityEngine;
 
-public interface DeckEvents
+public abstract class DeckEvents : MonoBehaviour
 {
-    void CardAdded();
-    void CardInserted(int index);
-    void CardRemoved(int index);
+    public abstract int deck { get; set; }
+    public abstract void CardAdded(int card);
+    public abstract void CardInserted(int index, int card);
+    public abstract void CardRemoved(int index);
 }

@@ -7,17 +7,18 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR;
 
-public delegate void OnRevealHandler();
+[Serializable]
 public struct Card
 {
-    public string name;
-    public string description;
-    public static GameObject prefab = Resources.Load<GameObject>("Assets/Resources/Board/Card.prefab");
-
-    public static Card unknownCard = new Card("unknown", "unknown");
-    public Card(string name, string description)
+    public static GameObject prefab = Resources.Load<GameObject>("Board/Card");
+    public Sprite sprite;
+    public int value;
+    public Type type;
+    public enum Type
     {
-        this.name = name;
-        this.description = description;
+        blue,
+        green,
+        red,
+        yellow
     }
 }

@@ -14,10 +14,9 @@ public class Note<T>
 
     public int MaxLength => array.Length;
 
-    public T this[int index]
+    public ref T this[int index]
     {
-        get { return array[index]; }
-        set { array[index] = value; }
+        get { return ref array[index]; }
     }
     //Add
     public void Add(T item)

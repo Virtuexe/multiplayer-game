@@ -65,4 +65,3 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  cube: {fileID: 0}

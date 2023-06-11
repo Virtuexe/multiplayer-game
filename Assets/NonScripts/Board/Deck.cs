@@ -18,24 +18,28 @@ public struct Deck
     public int currentLength;
     public int maxLength;
     public DeckEvents events;
-    public Deck(bool hidden, int playerException, int deckObject)
+    public Deck(bool hidden, int playerException)
     {
-        this.index = GameManagerScript.Instance.board.decks.CurrentLength - 1;
+        this.index = GameManagerScript.Instance.board.decks.CurrentLength;
         this.cardAmount = 0;
         this.selectedCard = 0;
         this.currentLength = 0;
-        this.maxLength = BoardScript.card_max;
-        this.events = GameManagerScript.Instance.board.deckObjects[deckObject];
+        this.maxLength = GameManagerScript.Instance.board.cards.Length;
+        //this.events = GameManagerScript.Instance.board.deckObjects[deckObject];
+        this.events = null;
         this.hidden = hidden;
         this.playerException = playerException;
     }
     public void Add(int card)
     {
         if (currentLength >= GameManagerScript.Instance.board.decks.MaxLength)
-            Console.Error.WriteLine("card cannot be added out of space");
+        {
+            Debug.LogError("card cannot be added out of space");
+            return;
+        }
         GameManagerScript.Instance.board.cards_index[index, currentLength] = card;
         currentLength++;
-        events?.CardAdded();
+        events?.CardAdded(card);
         return;
     }
     //Remove
@@ -55,14 +59,14 @@ public struct Deck
     public void Insert(int card, int index)
     {
         if (index >= currentLength)
-            Console.Error.WriteLine("index is bigger than current length");
+            Debug.LogError("index is bigger than current length");
         for (int i = index; i + 1 < currentLength; i++)
         {
             GameManagerScript.Instance.board.cards_index[this.index, i + 1] = GameManagerScript.Instance.board.cards_index[this.index,i];
         }
         GameManagerScript.Instance.board.cards_index[this.index,index] = card;
         currentLength++;
-        events?.CardInserted(index);
+        events?.CardInserted(index, card);
         return;
     }
 }
