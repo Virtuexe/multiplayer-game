@@ -37,6 +37,7 @@ public struct Deck
             Debug.LogError("card cannot be added out of space");
             return;
         }
+        Debug.Log( index + " : "+ currentLength);
         GameManagerScript.Instance.board.cards_index[index, currentLength] = card;
         currentLength++;
         events?.CardAdded(card);

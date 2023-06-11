@@ -9,7 +9,6 @@ public class PlayerScript : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        authority = connectionToClient
 
         CmdPlayerReady();
     }
@@ -20,6 +19,7 @@ public class PlayerScript : NetworkBehaviour
     }
     private void Update()
     {
+        if (!isLocalPlayer) return;
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             if (selectedIndex > 0)
@@ -32,22 +32,24 @@ public class PlayerScript : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            PlayCard();
+            PlayCard(selectedIndex);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            DrawCard();
+            DrawCard(selectedIndex);
         }
 
     }
     [Command]
-    private void PlayCard()
+    private void PlayCard(int selectedIndex)
     {
+        Debug.Log("trying to play: " + selectedIndex);
         StartCoroutine(GameManagerScript.Instance.PlayerPlayCard(connectionToClient, selectedIndex));
     }
     [Command]
-    private void DrawCard()
+    private void DrawCard(int selectedIndex)
     {
+        Debug.Log("trying to draw");
         StartCoroutine(GameManagerScript.Instance.PlayerDrawCard(connectionToClient, selectedIndex));
     }
 }

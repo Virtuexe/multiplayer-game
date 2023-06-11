@@ -82,20 +82,19 @@ public class BoardScript : NetworkBehaviour
                 TargetAddCard(players[i], deck);
             }
         }
+        SetReady();
     }
     [TargetRpc]
     private void TargetAddCard(NetworkConnection target, int deck, int card)
     {
         if (isServer) return;
         decks[deck].Add(card);
-        SetReady();
     }
     [TargetRpc]
     private void TargetAddCard(NetworkConnection target, int deck)
     {
         if (isServer) return;
         decks[deck].Add(0);
-        SetReady();
     }
     //CARD : remove
     public void RemoveCard(int deck, int index)

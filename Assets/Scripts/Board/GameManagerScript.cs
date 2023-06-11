@@ -33,13 +33,14 @@ public class GameManagerScript : MonoBehaviour
 
     IEnumerator StartGame()
     {
+        yield return new WaitForSeconds(1);
         Debug.Log("game started");
         //create main deck
-        mainDeck = board.CreateDeck(true, -1);
+        mainDeck = board.CreateDeck(true, 1);
         yield return new WaitUntil(() => board.isReady);
         for (int i = 1; i < board.cards.Length; i++)
         {
-            board.decks[mainDeck].Add(i);
+            board.AddCard(mainDeck, i);
         }
         yield return new WaitUntil(() => board.isReady);
         board.ShuffleDeck(mainDeck);
@@ -79,27 +80,41 @@ public class GameManagerScript : MonoBehaviour
     }
     public IEnumerator PlayerPlayCard(NetworkConnection player, int index)
     {
+        Debug.Log("someone is trying to play" + player + " " + playerTurn);
         if (board.players.FindIndex(p => p == player) == playerTurn)
         {
-            if (board.cards[board.cards_index[playerDeckStart + playerTurn, index]].type == board.cards[board.cards_index[discardDeck, board.decks[discardDeck].currentLength - 1]].type || board.cards[board.cards_index[playerDeckStart + playerTurn, index]].value == board.cards[board.cards_index[discardDeck, board.decks[discardDeck].currentLength - 1]].value)
+            if (board.cards_index[playerDeckStart + playerTurn, index] != 0 && board.cards[board.cards_index[playerDeckStart + playerTurn, index]].type == board.cards[board.cards_index[discardDeck, board.decks[discardDeck].currentLength - 1]].type || board.cards[board.cards_index[playerDeckStart + playerTurn, index]].value == board.cards[board.cards_index[discardDeck, board.decks[discardDeck].currentLength - 1]].value)
+            {
+                Debug.Log("he played it");
                 board.MoveCard(playerDeckStart + playerTurn, index, discardDeck);
-            yield return new WaitUntil(() => board.isReady);
+                if (playerTurn + 1 < board.players.Count)
+                    playerTurn++;
+                else
+                    playerTurn = 0;
+            }
+
         }
-        if (playerTurn + 1 < board.players.Count)
-            playerTurn++;
-        else
-            playerTurn = 0;
+        yield return 0;
     }
     public IEnumerator PlayerDrawCard(NetworkConnection player, int index)
     {
         if (board.players.FindIndex(p => p == player) == playerTurn)
         {
             board.MoveCard(mainDeck, index, playerDeckStart + playerTurn);
-            yield return new WaitUntil(() => board.isReady);
+            if (board.decks[mainDeck].currentLength == 0)
+            {
+                //Debug.Log("reset");
+                //for (int i = 0; i < board.decks[discardDeck].currentLength - 1; i++)
+                //{
+                //    yield return new WaitUntil(() => board.isReady);
+                //    board.MoveCard(discardDeck, board.decks[discardDeck].currentLength - 1, mainDeck);
+                //}
+            }
+            if (playerTurn + 1 < board.players.Count)
+                playerTurn++;
+            else
+                playerTurn = 0;        
         }
-        if (playerTurn + 1 < board.players.Count)
-            playerTurn++;
-        else
-            playerTurn = 0;
+        yield return 0;
     }
 }
